@@ -60,3 +60,26 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
                                                             host=host,
                                                             database=db_name)
     return connection
+
+
+def main() -> None:
+    """ This function will obtain a database connection
+    and retrive rows"""
+    conn = get_db()
+    cursor = conn.cursor()
+    query = "SELECT * FROM users;"
+    cursor.execute(query)
+    fields = [i[0] for i in cursor.description]
+
+    logger = get_logger()
+
+    for row in cursor:
+        str_row = ''.join(f'{f}={str(r)}; ' for r, f in zip(row, fields))
+        logger.info(str_row.strip())
+
+    cursor.close()
+    conn.close()
+
+
+if __name__ == "__main__":
+    main()
