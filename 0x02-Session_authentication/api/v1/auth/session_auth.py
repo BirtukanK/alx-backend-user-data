@@ -63,4 +63,3 @@ class SessionAuth(Auth):
             pass
 
         return True
-
